@@ -1,0 +1,102 @@
+package com.sample;
+
+import com.sample.DroolsTest.Path;
+import java.util.Arrays;
+
+
+global com.sample.DroolsTest guiHandler;
+
+rule "Start Rule"
+when
+    $path: Path(state == "start")
+then
+    guiHandler.updateQuestion("What do you want to do?", Arrays.asList("Take a nap", "Laugh", "Cry", 
+    "Watch guys run around with swords", "All of the above", 
+    "I just want a nice story with shipwrecks and pirates and prostitutes in it" ,
+    "All this is a bit modern for me. Do you have anything more Chaucer-y?"));
+    $path.setState("waiting");
+    update($path);
+end
+
+rule "Take a nap"
+when
+    $path: Path(state == "Take a nap")
+then
+    $path.setPlay("Henry VIII");
+    $path.setState("koniec");
+    update($path);
+end
+
+rule "All of the above"
+when
+    $path: Path(state == "All of the above")
+then
+    $path.setPlay("Cymbeline");
+    $path.setState("koniec");
+    update($path);
+end
+
+rule "I just want ships"
+when
+    $path: Path(state == "I just want a nice story with shipwrecks and pirates and prostitutes in it")
+then
+    $path.setPlay("Pericles, Prince of Tyre");
+    $path.setState("koniec");
+    update($path);
+end
+
+rule "Too modern"
+when
+    $path: Path(state == "All this is a bit modern for me. Do you have anything more Chaucer-y?")
+then
+    $path.setPlay("Two Noble Kingsmen");
+    $path.setState("koniec");
+    update($path);
+end
+
+rule "Koniec"
+when
+    $path: Path(state == "koniec")
+then
+	String play = $path.getPlay();
+    guiHandler.updateQuestion("Oto powieœæ Shakespearowska dla ciebie: \n" + play, Arrays.asList("Close"));
+    $path.setState("waiting");
+    update($path);
+end
+
+rule "Close"
+when
+    $path: Path(state == "Close")
+then
+    retract($path);
+end
+
+rule "Laugh"
+when
+    $path: Path(state == "Laugh")
+then
+    guiHandler.updateQuestion("Do you find murder, dismemberment, and cannibalism...", 
+    Arrays.asList("Disturbing?", "Hilarious?"));
+    $path.setState("waiting");
+    update($path);
+end
+
+rule "Cry"
+when
+    $path: Path(state == "Cry")
+then
+    guiHandler.updateQuestion("What's your opinion on revenge?", 
+    Arrays.asList("It's the best!", "It's pointless"));
+    $path.setState("waiting");
+    update($path);
+end
+
+rule "Swords"
+when
+    $path: Path(state == "Watch guys run around with swords")
+then
+    guiHandler.updateQuestion("Isn't English history awesome????", 
+    Arrays.asList("Eh, I prefer classics", "It really is!", "Um, I dunno..."));
+    $path.setState("waiting");
+    update($path);
+end

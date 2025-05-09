@@ -1,0 +1,161 @@
+package com.sample;
+
+import com.sample.DroolsTest.Path;
+import java.util.Arrays;
+
+global com.sample.DroolsTest guiHandler;
+
+rule "Revenge It's the best!"
+when
+    $path: Path(state == "It's the best!")
+then
+	System.out.println("Troilus and Cressida");
+    guiHandler.updateQuestion("How do you like death tolls?",
+    Arrays.asList("High! Bring on bloodbath!", "Moderate, with a side of angst", "Very low. I'm sqeuamish"));
+    $path.setState("waiting");
+    update($path);
+end
+
+rule "Death tolls High! Bring on bloodbath!"
+when
+    $path: Path(state == "High! Bring on bloodbath!")
+then
+    $path.setPlay("Titus Andronicus");
+    $path.setState("koniec");
+    update($path);
+end
+
+rule "Death tolls Moderate, with a side of angst"
+when
+    $path: Path(state == "Moderate, with a side of angst")
+then
+    $path.setPlay("Hamlet");
+    $path.setState("koniec");
+    update($path);
+end
+
+rule "Death tolls Very low. I'm sqeuamish"
+when
+    $path: Path(state == "Very low. I'm sqeuamish")
+then
+    $path.setPlay("Timon of Athens");
+    $path.setState("koniec");
+    update($path);
+end
+
+rule "Revenge It's pointless"
+when
+    $path: Path(state == "It's pointless")
+then
+    guiHandler.updateQuestion("What's most important to you?", 
+    Arrays.asList("Love", "Family", "Power"));
+    $path.setState("waiting");
+    update($path);
+end
+
+rule "Important Love"
+when
+    $path: Path(state == "Love")
+then
+    guiHandler.updateQuestion("Which is the best type of love?",
+        Arrays.asList("Stupid immature love", "Stupid mature love", "Jealous obsession")
+    );
+    $path.setState("waiting");
+    update($path);
+end
+
+rule "Love Stupid immature love"
+when
+    $path: Path(state == "Stupid immature love")
+then
+	$path.setPlay("Romeo and Juliet");
+    $path.setState("koniec");
+    update($path);
+end
+
+rule "Love Stupid mature love"
+when
+    $path: Path(state == "Stupid mature love")
+then
+	$path.setPlay("Antony and Cleopatra");
+    $path.setState("koniec");
+    update($path);
+end
+
+rule "Love Jealous Obsession"
+when
+    $path: Path(state == "Jealous obsession")
+then
+    $path.setPlay("Othello");
+    $path.setState("koniec");
+    update($path);
+end
+
+rule "Important Family"
+when
+    $path: Path(state == "Family")
+then
+    guiHandler.updateQuestion("Pick a parent",
+    	Arrays.asList("Mother", "Father")
+    );
+    $path.setState("waiting");
+    update($path);
+end
+
+rule "Father"
+when
+    $path: Path(state == "Father")
+then
+    $path.setPlay("King Lear");
+    $path.setState("koniec");
+    update($path);
+end
+
+rule "Mother"
+when
+    $path: Path(state == "Mother")
+then
+    $path.setPlay("Coriolanus");
+    $path.setState("koniec");
+    update($path);
+end
+
+rule "Important Power"
+when
+    $path: Path(state == "Power")
+then
+    guiHandler.updateQuestion(
+        "Who do you work best with?",
+        Arrays.asList("Friends", "Significant other", "Everyone hates me")
+    );
+    $path.setState("waiting");
+    update($path);
+end
+
+rule "Work Friends"
+when
+    $path: Path(state == "Friends")
+then
+    $path.setPlay("Julius Caesar");
+    $path.setState("koniec");
+    update($path);
+end
+
+rule "Work Significant other"
+when
+    $path: Path(state == "Significant other")
+then
+    $path.setPlay("Macbeth");
+    $path.setState("koniec");
+    
+    update($path);
+end
+
+rule "Work Everyone hates me"
+when
+    $path: Path(state == "Everyone hates me")
+then
+    $path.setPlay("Richard II");
+    $path.setState("koniec");
+    update($path);
+end

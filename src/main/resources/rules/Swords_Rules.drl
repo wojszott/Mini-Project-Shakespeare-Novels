@@ -1,0 +1,111 @@
+package com.sample;
+
+import com.sample.DroolsTest.Path;
+import java.util.Scanner;
+
+global Scanner scanner;
+
+rule "History Eh, I prefer classics"
+when
+    $path: Path(state == "Eh, I prefer classics")
+then
+    System.out.println("Troilus and Cressida");
+    $path.setPlay("Two Noble Kingsmen");
+    $path.setState("koniec");
+    update($path);
+end
+
+rule "History Um, I dunno"
+when
+    $path: Path(state == "Um, I dunno...")
+then
+	guiHandler.updateQuestion("No, it really is. Trust me",
+	Arrays.asList("It really is!"));
+    $path.setState("waiting");
+    update($path);
+end
+
+rule "History It really is"
+when
+    $path: Path(state == "It really is!")
+then
+	guiHandler.updateQuestion("Is excommunicating exciting?",
+	Arrays.asList("Wow! Is it ever!", "Boooring"));
+    $path.setState("waiting");
+    update($path);
+end
+
+rule "Excommunicating Wow! Is it ever!"
+when
+    $path: Path(state == "Wow! Is it ever!")
+then
+    $path.setPlay("King John");
+    $path.setState("koniec");
+    update($path);
+end
+
+rule "Excommunicating Boring"
+when
+    $path: Path(state == "Boooring")
+then
+	guiHandler.updateQuestion("How much time do you have?",
+	Arrays.asList("Just a few hours", "I'm here all week"));
+    $path.setState("waiting");
+    update($path);
+end
+
+rule "Time Just a few hours"
+when
+    $path: Path(state == "Just a few hours")
+then
+	guiHandler.updateQuestion("Do you like good guys or bad boys?",
+	Arrays.asList("Good guys", "Bad boys"));
+    $path.setState("waiting");
+    update($path);
+end
+
+rule "Bad boys"
+when
+    $path: Path(state == "Bad boys")
+then
+    $path.setPlay("Richard III");
+    $path.setState("koniec");
+    update($path);
+end
+
+rule "Good guys"
+when
+    $path: Path(state == "Good guys")
+then
+    $path.setPlay("Henry V");
+    $path.setState("koniec");
+    update($path);
+end
+
+rule "Time I'm here all week"
+when
+    $path: Path(state == "I'm here all week")
+then
+	guiHandler.updateQuestion("Which do you prefer?",
+	Arrays.asList("Coming of age journeys", "Just lots of battles"));
+    $path.setState("waiting");
+    update($path);
+end
+
+rule "Coming of age journeys"
+when
+    $path: Path(state == "Coming of Age")
+then
+	$path.setPlay("Henry IV Parts 1 and 2");
+    $path.setState("koniec");
+    update($path);
+end
+
+rule "Battles"
+when
+    $path: Path(state == "Just lots of battles")
+then
+    $path.setPlay("Henry IV Parts 1, 2, 3");
+    $path.setState("koniec");
+    update($path);
+end

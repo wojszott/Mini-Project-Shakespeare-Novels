@@ -1,0 +1,241 @@
+package com.sample;
+
+import com.sample.DroolsTest.Path;
+import java.util.Arrays;
+
+global com.sample.DroolsTest guiHandler;
+
+rule "Hilarious"
+when 
+    $path: Path(state == "Hilarious?")
+then
+    $path.setPlay("Titus Andronicus");
+    $path.setState("koniec");
+    update($path);
+end
+
+rule "Disturbing"
+when 
+    $path: Path(state == "Disturbing?")
+then
+    guiHandler.updateQuestion("Cross-dressing: Yea or Nay?", 
+    Arrays.asList("Yea!", "Nay"));
+    $path.setState("waiting");
+    update($path);
+end
+
+rule "Cross-dressing Yea!"
+when 
+    $path: Path(state == "Yea!")
+then
+    guiHandler.updateQuestion("Twins?", 
+    Arrays.asList("Twins are awesome", "No! No twins"));
+    $path.setState("waiting");
+    update($path);
+end
+
+rule "C Twins are awesome"
+when 
+    $path: Path(state == "Twins are awesome")
+then
+    $path.setPlay("Twelfth Night");
+    $path.setState("koniec");
+    update($path);
+end
+
+rule "C No! No twins"
+when 
+    $path: Path(state == "No! No twins")
+then
+    guiHandler.updateQuestion("Can it be set in a forest?", 
+    Arrays.asList("Oooh, yes, I love forests", "Why not in a city, for a change?"));
+    $path.setState("waiting");
+    update($path);
+end
+
+rule "Oooh, yes, I love forests"
+when 
+    $path: Path(state == "Oooh, yes, I love forests")
+then
+    guiHandler.updateQuestion("Who is in the forest?", 
+    Arrays.asList("Shepherds", "Bandits"));
+    $path.setState("waiting");
+    update($path);
+end
+
+rule "Shepherds"
+when 
+    $path: Path(state == "Shepherds")
+then
+    $path.setPlay("As You Like It");
+    $path.setState("koniec");
+    update($path);
+end
+
+rule "Bandits"
+when 
+    $path: Path(state == "Bandits")
+then
+    $path.setPlay("Two Gentlemen of Verona");
+    $path.setState("koniec");
+    update($path);
+end
+
+rule "Why not in a city, for a change?"
+when 
+    $path: Path(state == "Why not in a city, for a change?")
+then
+    $path.setPlay("The Merchant of Venice");
+    $path.setState("koniec");
+    update($path);
+end
+
+rule "Cross-dressing Nay"
+when 
+    $path: Path(state == "Nay")
+then
+    guiHandler.updateQuestion("How about twins?", 
+    Arrays.asList("How contrived", "Sounds like fun"));
+    $path.setState("waiting");
+    update($path);
+end
+
+rule "Twins Sounds like fun"
+when 
+    $path: Path(state == "Sounds like fun")
+then
+    $path.setPlay("The Comedy of Errors");
+    $path.setState("koniec");
+    update($path);
+end
+
+rule "Twins How contrived"
+when 
+    $path: Path(state == "How contrived")
+then
+    guiHandler.updateQuestion("Picky picky. How about magic?", 
+    Arrays.asList("Oooo, I love magic", "There's no such thing"));
+    $path.setState("waiting");
+    update($path);
+end
+
+rule "Magic Oooo, I love magic"
+when 
+    $path: Path(state == "Oooo, I love magic")
+then
+    guiHandler.updateQuestion("What kind of magic do you like?", 
+    Arrays.asList("Illusion!", "Fairies!", "Miracles!"));
+    $path.setState("waiting");
+    update($path);
+end
+
+rule "Magic Illusion!"
+when 
+    $path: Path(state == "Illusion!")
+then
+    $path.setPlay("The Tempest");
+    $path.setState("koniec");
+    update($path);
+end
+
+rule "Magic Fairies!"
+when 
+    $path: Path(state == "Fairies!")
+then
+    $path.setPlay("A Midsummer Night's Dream");
+    $path.setState("koniec");
+    update($path);
+end
+
+rule "Magic Miracles!"
+when 
+    $path: Path(state == "Miracles!")
+then
+    $path.setPlay("The Winter's Tale");
+    $path.setState("koniec");
+    update($path);
+end
+
+rule "Magic There's no such thing"
+when 
+    $path: Path(state == "There's no such thing")
+then
+    guiHandler.updateQuestion("Wow, you're a tough crowd. How do you like your lovers?", 
+    Arrays.asList("Overeducated", "Quarrelsome", "Reluctant", "Married"));
+    $path.setState("waiting");
+    update($path);
+end
+
+rule "Lovers Overeducated"
+when 
+    $path: Path(state == "Overeducated")
+then
+    $path.setPlay("Love's Labour's Lost");
+    $path.setState("koniec");
+    update($path);
+end
+
+rule "Lovers Married"
+when 
+    $path: Path(state == "Married")
+then
+    $path.setPlay("The Merry Wives of Windsor");
+    $path.setState("koniec");
+    update($path);
+end
+
+rule "Lovers Quarrelsome"
+when 
+    $path: Path(state == "Quarrelsome")
+then
+    guiHandler.updateQuestion("Violently quarrelsome?", 
+    Arrays.asList("No, just argumentative", "Bring it on!"));
+    $path.setState("waiting");
+    update($path);
+end
+
+rule "Bring it on!"
+when 
+    $path: Path(state == "Bring it on!")
+then
+    $path.setPlay("The Taming of the Shrew");
+    $path.setState("koniec");
+    update($path);
+end
+
+rule "No, just argumentative"
+when 
+    $path: Path(state == "No, just argumentative")
+then
+    $path.setPlay("Much Ado About Nothing");
+    $path.setState("koniec");
+    update($path);
+end
+
+rule "Lovers Reluctant"
+when 
+    $path: Path(state == "Reluctant")
+then
+    guiHandler.updateQuestion("Is there a nun involved?", 
+    Arrays.asList("...maybe?", "What? No! That's weird!"));
+    $path.setState("waiting");
+    update($path);
+end
+
+rule "Nun ...maybe?"
+when 
+    $path: Path(state == "...maybe?")
+then
+    $path.setPlay("Measure for Measure");
+    $path.setState("koniec");
+    update($path);
+end
+
+rule "Nun What? No! That's weird!"
+when 
+    $path: Path(state == "What? No! That's weird!")
+then
+    $path.setPlay("All's Well That Ends Well");
+    $path.setState("koniec");
+    update($path);
+end
